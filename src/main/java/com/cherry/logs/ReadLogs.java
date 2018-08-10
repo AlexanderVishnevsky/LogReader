@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ReadLogs {
@@ -32,7 +33,7 @@ public class ReadLogs {
                 bw.write("<table id=\"myTable\" border=\"1\"><thead><tr><th>Sl No</th><th>Log Text</th></tr></thead><tbody>");
 
                 int lineCount = 1;
-                for (File file : inputFolder.listFiles()) {
+                for (File file : Objects.requireNonNull(inputFolder.listFiles())) {
                     try (FileReader fr = new FileReader(file);
                          BufferedReader br = new BufferedReader(fr)) {
                         String line;
@@ -72,6 +73,7 @@ public class ReadLogs {
             //If you didn't choose any directory
         } catch (NullPointerException ex) {
             System.err.println("Proper file hasn't been chosen");
+            System.out.println("Please, choose proper file");
 
            //For uncorrected files
         } catch (ArrayIndexOutOfBoundsException ex) {
