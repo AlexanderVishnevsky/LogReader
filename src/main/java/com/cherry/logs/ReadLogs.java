@@ -1,5 +1,6 @@
 package com.cherry.logs;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.HashSet;
@@ -8,9 +9,18 @@ import java.util.Set;
 public class ReadLogs {
     public static void ReadFiles() {
         try {
-            File inputFolder = new File("E:\\Logs\\");
+            JFileChooser f = new JFileChooser();
+            f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            f.showOpenDialog(null);
+
+            if (f.getSelectedFile() != null) {
+                System.out.println("Chosen directory  : " + f.getSelectedFile());
+                System.out.println();
+            }
+
+            File inputFolder = new File(f.getSelectedFile().getPath());
             Set<String> alreadyMetNames = new HashSet<>();
-            File output = new File("source.htm");
+            File output = new File("result.htm");
             try (FileWriter fw = new FileWriter(output);
                  BufferedWriter bw = new BufferedWriter(fw)) {
 
@@ -55,8 +65,18 @@ public class ReadLogs {
 
 
             System.out.println("Your file is here : " + output.getAbsolutePath());
+
         } catch (IOException e) {
             e.printStackTrace();
+
+            //If you didn't choose any directory
+        } catch (NullPointerException ex) {
+            System.err.println("Proper file hasn't been chosen");
+
+           //For uncorrected files
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.err.println("You choose uncorrected file");
+            System.out.println("Please, choose proper file");
         }
     }
 }
